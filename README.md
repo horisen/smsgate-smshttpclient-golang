@@ -35,12 +35,12 @@ sms := &smsgate.SMSRequest{
 
 response, err := api.Send(sms)
 if err != nil {
-
-if smsgate.IsAPIError(err) {
-    apiErr := err.(*smsgate.APIError)
-    log.Errorf("API returned error: %d : %s\n",
-        apiErr.Code(), apiErr.Error())
-} else {
-    log.Errorf("Error: %s\n", err)
+    if smsgate.IsAPIError(err) {
+        apiErr := err.(*smsgate.APIError)
+        log.Errorf("API returned error: %d : %s\n",
+            apiErr.Code(), apiErr.Error())
+    } else {
+        log.Errorf("Error: %s\n", err)
+    }
 }
 ```
