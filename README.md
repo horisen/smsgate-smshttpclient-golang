@@ -42,5 +42,8 @@ if err != nil {
     } else {
         log.Errorf("Error: %s\n", err)
     }
+} else {
+    log.Printf("Sent as message ID %s with %d parts\n",
+		response.MsgID, response.NumParts)
 }
 ```
