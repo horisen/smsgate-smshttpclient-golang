@@ -5,13 +5,13 @@
 Install GO library
 
 ```
-go get github.com/horisen/smsgate-clientlib-golang/smsgate
+go get github.com/horisen/smsgate-smshttpclient-golang/smsgate
 ```
 
 ## Send SMS
 
 ```golang
-import "github.com/horisen/smsgate-clientlib-golang/smsgate"
+import "github.com/horisen/smsgate-smshttpclient-golang/smsgate"
 
 ...
 
@@ -26,6 +26,8 @@ sms := &smsgate.SMSRequest{
 
     Text: paramText,
     DCS:  smsgate.DCSGSM,
+    DlrMask: smsgate.DLRMaskStandard,
+    DlrURL:  "http://YOUR-SERVER-IP:YOUR-SERVER-PORT/dlr",
 
      Auth: &smsgate.Auth{
         Username: "YOUR-USERNAME",
@@ -47,3 +49,27 @@ if err != nil {
 		response.MsgID, response.NumParts)
 }
 ```
+
+## Receive DLRs
+
+```golang
+	mux := http.NewServeMux()
+	mux.HandleFunc("/dlr", func(w http.ResponseWriter, req *http.Request) {
+		dlr, err := api.ParseDeliveryReport(req)
+		if err != nil {
+			log.Printf("Cannot parse DLR: %s\n", err)
+		}
+		log.Printf("Received DLR: %#v\n", dlr)
+	})
+
+	httpsrv := &http.Server{
+		Addr:           ":YOUR-SERVER-PORT",
+		Handler:        mux,
+		ReadTimeout:    10 * time.Minute,
+		WriteTimeout:   10 * time.Minute,
+		MaxHeaderBytes: 1 << 20,
+	}
+	log.Fatal(httpsrv.ListenAndServe())
+```
+
+Check `examples` directory.

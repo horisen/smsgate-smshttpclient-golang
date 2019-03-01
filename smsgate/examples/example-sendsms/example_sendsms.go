@@ -4,7 +4,7 @@ import (
 	"flag"
 	"log"
 
-	"github.com/horisen/smsgate-clientlib-golang/smsgate"
+	"github.com/horisen/smsgate-smshttpclient-golang/smsgate"
 )
 
 var (
