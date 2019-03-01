@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/horisen/smsgate-clientlib-golang/smsgate"
+	"github.com/horisen/smsgate-smshttpclient-golang/smsgate"
 )
 
 const (
